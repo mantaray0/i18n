@@ -1,11 +1,11 @@
 import { useContext } from 'react';
 import { TranslationsContext } from './TranslationsProvider';
 
-const getNestedTranslation = (obj: any, path: string) => {
+export const getNestedTranslation = (obj: any, path: string) => {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
 };
 
-const useTranslation = () => {
+export const useTranslation = () => {
     const context = useContext(TranslationsContext);
     if (!context) {
         throw new Error(
@@ -25,5 +25,3 @@ const useTranslation = () => {
         changeLanguage: context.changeLanguage
     };
 };
-
-export default useTranslation;
