@@ -2,7 +2,7 @@
 
 import React, { createContext, ReactNode, useState } from 'react';
 
-interface TranslationsContextProps {
+export interface TranslationsContextProps {
     translations: any;
     language: string;
     changeLanguage: (lang: string) => void;
@@ -11,7 +11,7 @@ interface TranslationsContextProps {
 export const TranslationsContext =
     createContext<TranslationsContextProps | null>(null);
 
-interface TranslationsProviderProps {
+export interface TranslationsProviderProps {
     translations: any;
     locale: string;
     children: ReactNode;

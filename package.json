@@ -1,6 +1,6 @@
 {
   "name": "beluga-i18n",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A package for internationalization support in NextJS apps and beluga stack.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/beluga-digital/beluga-i18n.git"
+    "url": "git+https://github.com/beluga-labs/beluga-i18n"
   },
   "keywords": [
 	"i18n",
@@ -19,7 +19,7 @@
 	"beluga"
   ],
   "bugs": {
-    "url": "https://github.com/beluga-digital/beluga-i18n/issues"
+    "url": "https://github.com/beluga-labs/beluga-i18n/issues"
   },
   "author": "beluga – Daniel Baumert",
   "license": "MIT",
