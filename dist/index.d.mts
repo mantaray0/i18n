@@ -14,9 +14,10 @@ interface TranslationsProviderProps {
 declare const TranslationsProvider: React.FC<TranslationsProviderProps>;
 
 declare const getNestedTranslation: (obj: any, path: string) => any;
+declare const interpolateVariables: (text: string, variables?: Record<string, any>) => string;
 declare const useTranslation: () => {
-    t: (key: string) => any;
+    t: (key: string, variables?: Record<string, any>) => any;
     changeLanguage: (lang: string) => void;
 };
 
-export { TranslationsContext, type TranslationsContextProps, TranslationsProvider, type TranslationsProviderProps, getNestedTranslation, useTranslation };
+export { TranslationsContext, type TranslationsContextProps, TranslationsProvider, type TranslationsProviderProps, getNestedTranslation, interpolateVariables, useTranslation };
