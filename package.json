@@ -1,7 +1,12 @@
 {
 	"name": "beluga-i18n",
 	"description": "A package for internationalization support in NextJS apps and beluga stack.",
-	"version": "0.2.0",
+	"version": "0.2.1",
+	"changelog": {
+		"0.2.1": [
+			"Added reloadKey prop to TranslationsProvider for controlled reloading"
+		]
+	},
 	"main": "dist/index.js",
 	"types": "dist/index.d.ts",
 	"scripts": {

@@ -9,6 +9,7 @@ declare const TranslationsContext: React.Context<TranslationsContextProps | null
 interface TranslationsProviderProps {
     translations: any;
     locale: string;
+    reloadKey?: string | number;
     children: ReactNode;
 }
 declare const TranslationsProvider: React.FC<TranslationsProviderProps>;
