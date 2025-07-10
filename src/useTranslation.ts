@@ -5,19 +5,24 @@ export const getNestedTranslation = (obj: any, path: string) => {
     return path.split('.').reduce((acc, key) => acc?.[key], obj);
 };
 
-export const interpolateVariables = (text: string, variables: Record<string, any> = {}) => {
+export const interpolateVariables = (
+    text: string,
+    variables: Record<string, any> = {}
+) => {
     if (typeof text !== 'string') {
         return text;
     }
 
-    return text.replace(/\{([^}]+)\}/g, (match, variableName) => {
-        if (variables.hasOwnProperty(variableName)) {
-            return String(variables[variableName]);
-        }
-        return match;
-    }).replace(/\\\{([^}]+)\\\}/g, (match, variableName) => {
-        return `{${variableName}}`;
-    });
+    return text
+        .replace(/\{([^}]+)\}/g, (match, variableName) => {
+            if (variables.hasOwnProperty(variableName)) {
+                return String(variables[variableName]);
+            }
+            return match;
+        })
+        .replace(/\\\{([^}]+)\\\}/g, (match, variableName) => {
+            return `{${variableName}}`;
+        });
 };
 
 export const useTranslation = () => {
