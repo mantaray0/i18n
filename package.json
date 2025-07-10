@@ -1,33 +1,37 @@
 {
-  "name": "beluga-i18n",
-  "version": "0.2.0",
-  "description": "A package for internationalization support in NextJS apps and beluga stack.",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "scripts": {
-    "build": "tsup"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/beluga-labs/beluga-i18n"
-  },
-  "keywords": [
-    "i18n",
-    "internationalization",
-    "translations",
-    "nextjs",
-    "beluga"
-  ],
-  "bugs": {
-    "url": "https://github.com/beluga-labs/beluga-i18n/issues"
-  },
-  "author": "beluga – Daniel Baumert",
-  "license": "MIT",
-  "devDependencies": {
-    "tsup": "^8.5.0",
-    "typescript": "^5.8.3"
-  },
-  "dependencies": {
-    "react": "^19.1.0"
-  }
+	"name": "beluga-i18n",
+	"description": "A package for internationalization support in NextJS apps and beluga stack.",
+	"version": "0.2.0",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"scripts": {
+		"build": "tsup",
+		"test": "cd test && pnpm test",
+		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
+		"format-watch": "onchange \"**/*.{ts,tsx,md}\" -- prettier --write --ignore-unknown {{changed}}"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/beluga-labs/beluga-i18n"
+	},
+	"keywords": [
+		"i18n",
+		"internationalization",
+		"translations",
+		"nextjs",
+		"beluga"
+	],
+	"bugs": {
+		"url": "https://github.com/beluga-labs/beluga-i18n/issues"
+	},
+	"author": "beluga – Daniel Baumert",
+	"license": "MIT",
+	"devDependencies": {
+		"prettier": "^3.6.2",
+		"tsup": "^8.5.0",
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"react": "^19.1.0"
+	}
 }
