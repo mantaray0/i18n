@@ -1,5 +1,5 @@
 import { act, renderHook } from '@testing-library/react';
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, beforeEach, afterEach, vi } from 'vitest';
 import { TranslationsProvider } from '../../src/TranslationsProvider';
 import { interpolateVariables, useTranslation } from '../../src/useTranslation';
 
@@ -138,6 +138,22 @@ describe('interpolateVariables', () => {
 });
 
 describe('useTranslation', () => {
+    let consoleSpy: any;
+
+    beforeEach(() => {
+        // Mock console.warn
+        consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+        // Mock window.location.hostname for development detection
+        Object.defineProperty(window, 'location', {
+            value: { hostname: 'localhost' },
+            writable: true
+        });
+    });
+
+    afterEach(() => {
+        consoleSpy.mockRestore();
+    });
+
     test('should translate without variables', () => {
         const { result } = renderHook(() => useTranslation(), {
             wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
@@ -188,12 +204,100 @@ describe('useTranslation', () => {
         );
     });
 
-    test('should return key if translation not found', () => {
+    test('should return bracketed key if translation not found', () => {
         const { result } = renderHook(() => useTranslation(), {
             wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
         });
 
-        expect(result.current.t('nonexistent.key')).toBe('nonexistent.key');
+        expect(result.current.t('nonexistent.key')).toBe('[nonexistent.key]');
+    });
+
+    test('should return bracketed key for missing nested translation', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        expect(result.current.t('nested.missing.key')).toBe(
+            '[nested.missing.key]'
+        );
+    });
+
+    test('should return bracketed key for missing translation in different language', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => (
+                <TestWrapper locale="de">{children}</TestWrapper>
+            )
+        });
+
+        expect(result.current.t('nonexistent.key')).toBe('[nonexistent.key]');
+    });
+
+    test('should handle missing translation with variables', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        expect(result.current.t('missing.key', { name: 'John' })).toBe(
+            '[missing.key]'
+        );
+    });
+
+    test('should handle missing translation with HTML parsing disabled', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        expect(result.current.t('missing.key', {}, false)).toBe(
+            '[missing.key]'
+        );
+    });
+
+    test('should log warning in development for missing translation', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        result.current.t('missing.key');
+
+        expect(consoleSpy).toHaveBeenCalledWith(
+            '[beluga-i18n] Missing translation for key: "missing.key" in language: "en"'
+        );
+    });
+
+    test('should log warning for missing translation in different language', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => (
+                <TestWrapper locale="de">{children}</TestWrapper>
+            )
+        });
+
+        result.current.t('missing.key');
+
+        expect(consoleSpy).toHaveBeenCalledWith(
+            '[beluga-i18n] Missing translation for key: "missing.key" in language: "de"'
+        );
+    });
+
+    test('should not log warning in production environment', () => {
+        // Mock production environment
+        Object.defineProperty(window, 'location', {
+            value: { hostname: 'example.com' },
+            writable: true
+        });
+
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        result.current.t('missing.key');
+
+        expect(consoleSpy).not.toHaveBeenCalled();
+
+        // Reset to localhost for other tests
+        Object.defineProperty(window, 'location', {
+            value: { hostname: 'localhost' },
+            writable: true
+        });
     });
 
     test('should handle missing variables in translation', () => {

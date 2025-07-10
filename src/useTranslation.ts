@@ -51,7 +51,11 @@ export const useTranslation = () => {
             );
 
             if (!translation) {
-                return key;
+                // Log warning in development
+                if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+                    console.warn(`[beluga-i18n] Missing translation for key: "${key}" in language: "${language}"`);
+                }
+                return `[${key}]`;
             }
 
             if (variables && Object.keys(variables).length > 0) {
