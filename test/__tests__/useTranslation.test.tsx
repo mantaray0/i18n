@@ -18,7 +18,13 @@ const testTranslations = {
             }
         },
         noVariables: 'Simple text without variables',
-        missingVariable: 'Hello {name}, you are {age} years old'
+        missingVariable: 'Hello {name}, you are {age} years old',
+        htmlSimple: '<strong>Welcome!</strong>',
+        htmlWithVars: '<strong>Welcome {name}!</strong>',
+        htmlComplex:
+            '<div><h1>Hello {name}</h1><p>You are {age} years old</p></div>',
+        htmlNested: '<span>Click <a href="{url}">here</a> to continue</span>',
+        htmlMixed: 'Text before <em>{name}</em> text after'
     },
     de: {
         welcome: 'Willkommen {name}!',
@@ -31,7 +37,14 @@ const testTranslations = {
             }
         },
         noVariables: 'Einfacher Text ohne Variablen',
-        missingVariable: 'Hallo {name}, du bist {age} Jahre alt'
+        missingVariable: 'Hallo {name}, du bist {age} Jahre alt',
+        htmlSimple: '<strong>Willkommen!</strong>',
+        htmlWithVars: '<strong>Willkommen {name}!</strong>',
+        htmlComplex:
+            '<div><h1>Hallo {name}</h1><p>Du bist {age} Jahre alt</p></div>',
+        htmlNested:
+            '<span>Klicke <a href="{url}">hier</a> um fortzufahren</span>',
+        htmlMixed: 'Text vor <em>{name}</em> Text nach'
     }
 };
 
@@ -86,6 +99,41 @@ describe('interpolateVariables', () => {
         const text = 'Hello {name}';
         const result = interpolateVariables(text, {});
         expect(result).toBe('Hello {name}');
+    });
+
+    test('should parse HTML when parseHtml is true', () => {
+        const text = '<strong>Hello {name}</strong>';
+        const variables = { name: 'John' };
+        const result = interpolateVariables(text, variables, true);
+
+        // html-react-parser returns React elements, so we check the structure
+        expect(result).toBeDefined();
+        expect(typeof result).not.toBe('string');
+    });
+
+    test('should not parse HTML when parseHtml is false', () => {
+        const text = '<strong>Hello {name}</strong>';
+        const variables = { name: 'John' };
+        const result = interpolateVariables(text, variables, false);
+        expect(result).toBe('<strong>Hello John</strong>');
+    });
+
+    test('should parse HTML without variables', () => {
+        const text = '<div><h1>Hello</h1><p>World</p></div>';
+        const result = interpolateVariables(text, {}, true);
+
+        expect(result).toBeDefined();
+        expect(typeof result).not.toBe('string');
+    });
+
+    test('should handle HTML with complex structure and variables', () => {
+        const text =
+            '<div><h1>Hello {name}</h1><p>You are {age} years old</p></div>';
+        const variables = { name: 'John', age: 25 };
+        const result = interpolateVariables(text, variables, true);
+
+        expect(result).toBeDefined();
+        expect(typeof result).not.toBe('string');
     });
 });
 
@@ -185,6 +233,74 @@ describe('useTranslation', () => {
         expect(result.current.t('welcome', { name: 'Hans' })).toBe(
             'Willkommen Hans!'
         );
+    });
+
+    test('should parse HTML by default', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t('htmlSimple');
+        expect(htmlResult).toBeDefined();
+        expect(typeof htmlResult).not.toBe('string');
+    });
+
+    test('should parse HTML with variables', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t('htmlWithVars', { name: 'John' });
+        expect(htmlResult).toBeDefined();
+        expect(typeof htmlResult).not.toBe('string');
+    });
+
+    test('should parse complex HTML with multiple variables', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t('htmlComplex', {
+            name: 'John',
+            age: 25
+        });
+        expect(htmlResult).toBeDefined();
+        expect(typeof htmlResult).not.toBe('string');
+    });
+
+    test('should return string when parseHtml is false', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t(
+            'htmlWithVars',
+            { name: 'John' },
+            false
+        );
+        expect(htmlResult).toBe('<strong>Welcome John!</strong>');
+    });
+
+    test('should handle HTML with nested elements and variables', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t('htmlNested', {
+            url: 'https://example.com'
+        });
+        expect(htmlResult).toBeDefined();
+        expect(typeof htmlResult).not.toBe('string');
+    });
+
+    test('should handle mixed text and HTML', () => {
+        const { result } = renderHook(() => useTranslation(), {
+            wrapper: ({ children }) => <TestWrapper>{children} </TestWrapper>
+        });
+
+        const htmlResult = result.current.t('htmlMixed', { name: 'John' });
+        expect(htmlResult).toBeDefined();
+        expect(typeof htmlResult).not.toBe('string');
     });
 });
 

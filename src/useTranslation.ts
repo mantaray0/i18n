@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import parse from 'html-react-parser';
 import { TranslationsContext } from './TranslationsProvider';
 
 export const getNestedTranslation = (obj: any, path: string) => {
@@ -7,13 +8,14 @@ export const getNestedTranslation = (obj: any, path: string) => {
 
 export const interpolateVariables = (
     text: string,
-    variables: Record<string, any> = {}
+    variables: Record<string, any> = {},
+    parseHtml: boolean = true
 ) => {
     if (typeof text !== 'string') {
         return text;
     }
 
-    return text
+    let processedText = text
         .replace(/\{([^}]+)\}/g, (match, variableName) => {
             if (variables.hasOwnProperty(variableName)) {
                 return String(variables[variableName]);
@@ -23,6 +25,13 @@ export const interpolateVariables = (
         .replace(/\\\{([^}]+)\\\}/g, (match, variableName) => {
             return `{${variableName}}`;
         });
+
+    // Parse HTML if requested
+    if (parseHtml && processedText.includes('<')) {
+        return parse(processedText);
+    }
+
+    return processedText;
 };
 
 export const useTranslation = () => {
@@ -35,7 +44,7 @@ export const useTranslation = () => {
     const { translations, language } = context;
 
     return {
-        t: (key: string, variables?: Record<string, any>) => {
+        t: (key: string, variables?: Record<string, any>, parseHtml: boolean = true) => {
             const translation = getNestedTranslation(
                 translations?.[language],
                 key
@@ -46,7 +55,11 @@ export const useTranslation = () => {
             }
 
             if (variables && Object.keys(variables).length > 0) {
-                return interpolateVariables(translation, variables);
+                return interpolateVariables(translation, variables, parseHtml);
+            }
+
+            if (parseHtml) {
+                return interpolateVariables(translation, {}, parseHtml);
             }
 
             return translation;
