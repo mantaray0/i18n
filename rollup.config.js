@@ -1,5 +1,6 @@
 import typescript from '@rollup/plugin-typescript';
 import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
 import dts from 'rollup-plugin-dts';
 
 const banner = "'use client';";
@@ -22,9 +23,10 @@ export default [
         sourcemap: true
       }
     ],
-    external: ['react'],
+    external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
     plugins: [
       resolve(),
+      commonjs(),
       typescript({
         tsconfig: './tsconfig.build.json',
         declaration: false
@@ -38,7 +40,7 @@ export default [
       file: 'dist/index.d.ts',
       format: 'esm'
     },
-    external: ['react'],
+    external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
     plugins: [dts()]
   }
 ];
