@@ -1,5 +1,5 @@
 //~ context
-export * from './TranslationsProvider';
+export * from './TranslationProvider';
 
 //~ hooks
 export * from './useTranslation';
