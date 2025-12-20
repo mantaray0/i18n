@@ -17,9 +17,10 @@
     "build": "rm -rf dist && rollup -c",
     "test": "vitest run",
     "test:watch": "vitest",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "format-watch": "onchange \"**/*.{ts,tsx,md}\" -- prettier --write --ignore-unknown {{changed}}",
-    "example": "cd example && vite"
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "example": "cd example && vite",
+    "prepublishOnly": "pnpm build"
   },
   "repository": {
     "type": "git",
@@ -45,6 +46,7 @@
   "author": "beluga labs",
   "license": "MIT",
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^29.0.0",
     "@rollup/plugin-node-resolve": "^16.0.3",
     "@rollup/plugin-typescript": "^12.3.0",
     "@testing-library/jest-dom": "^6.9.1",
