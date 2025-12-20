@@ -1,73 +1,73 @@
 import { useContext } from 'react';
 import parse from 'html-react-parser';
-import { TranslationsContext } from './TranslationsProvider';
+import { TranslationContext } from './TranslationProvider';
 
 export const getNestedTranslation = (obj: any, path: string) => {
-    return path.split('.').reduce((acc, key) => acc?.[key], obj);
+  return path.split('.').reduce((acc, key) => acc?.[key], obj);
 };
 
 export const interpolateVariables = (
-    text: string,
-    variables: Record<string, any> = {},
-    parseHtml: boolean = true
+  text: string,
+  variables: Record<string, any> = {},
+  parseHtml: boolean = true
 ) => {
-    if (typeof text !== 'string') {
-        return text;
-    }
+  if (typeof text !== 'string') {
+    return text;
+  }
 
-    let processedText = text
-        .replace(/\{([^}]+)\}/g, (match, variableName) => {
-            if (variables.hasOwnProperty(variableName)) {
-                return String(variables[variableName]);
-            }
-            return match;
-        })
-        .replace(/\\\{([^}]+)\\\}/g, (match, variableName) => {
-            return `{${variableName}}`;
-        });
+  let processedText = text
+    .replace(/\{([^}]+)\}/g, (match, variableName) => {
+      if (variables.hasOwnProperty(variableName)) {
+        return String(variables[variableName]);
+      }
+      return match;
+    })
+    .replace(/\\\{([^}]+)\\\}/g, (match, variableName) => {
+      return `{${variableName}}`;
+    });
 
-    // Parse HTML if requested
-    if (parseHtml && processedText.includes('<')) {
-        return parse(processedText);
-    }
+  // Parse HTML if requested
+  if (parseHtml && processedText.includes('<')) {
+    return parse(processedText);
+  }
 
-    return processedText;
+  return processedText;
 };
 
 export const useTranslation = () => {
-    const context = useContext(TranslationsContext);
-    if (!context) {
-        throw new Error(
-            'useTranslations must be used within a TranslationsProvider'
-        );
-    }
-    const { translations, language } = context;
+  const context = useContext(TranslationContext);
+  if (!context) {
+    throw new Error(
+      'useTranslation must be used within a TranslationProvider'
+    );
+  }
+  const { translations, language } = context;
 
-    return {
-        t: (key: string, variables?: Record<string, any>, parseHtml: boolean = true) => {
-            const translation = getNestedTranslation(
-                translations?.[language],
-                key
-            );
+  return {
+    t: (key: string, variables?: Record<string, any>, parseHtml: boolean = true) => {
+      const translation = getNestedTranslation(
+        translations?.[language],
+        key
+      );
 
-            if (!translation) {
-                // Log warning in development
-                if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-                    console.warn(`[beluga-i18n] Missing translation for key: "${key}" in language: "${language}"`);
-                }
-                return `[${key}]`;
-            }
+      if (!translation) {
+        // Log warning in development
+        if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
+          console.warn(`[@beluga-labs/i18n] Missing translation for key: "${key}" in language: "${language}"`);
+        }
+        return `[${key}]`;
+      }
 
-            if (variables && Object.keys(variables).length > 0) {
-                return interpolateVariables(translation, variables, parseHtml);
-            }
+      if (variables && Object.keys(variables).length > 0) {
+        return interpolateVariables(translation, variables, parseHtml);
+      }
 
-            if (parseHtml) {
-                return interpolateVariables(translation, {}, parseHtml);
-            }
+      if (parseHtml) {
+        return interpolateVariables(translation, {}, parseHtml);
+      }
 
-            return translation;
-        },
-        changeLanguage: context.changeLanguage
-    };
+      return translation;
+    },
+    changeLanguage: context.changeLanguage
+  };
 };

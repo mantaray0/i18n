@@ -1,93 +1,101 @@
-# Beluga i18n
+# @beluga-labs/i18n
 
-A lightweight and flexible internationalization package for NextJS apps and the Beluga stack. This package provides a simple yet powerful way to handle translations in your React applications.
+Internationalization support for React applications with translation management. Works with any React framework including Next.js, Remix, Gatsby, Vite, Create React App, and any other React-based application.
 
 ## Features
 
-- 🚀 **Lightweight**: Minimal bundle size with zero runtime dependencies
-- 🔧 **Flexible**: Support for nested translation keys and variable interpolation
-- 🎨 **HTML Support**: Optional HTML parsing for rich text translations
-- ⚡ **Type Safe**: Full TypeScript support
-- 🔄 **Dynamic Language Switching**: Change languages at runtime
-- 🎯 **NextJS Ready**: Optimized for NextJS applications
+- **Lightweight**: Minimal bundle size with zero runtime dependencies
+- **Flexible**: Support for nested translation keys and variable interpolation
+- **HTML Support**: Optional HTML parsing for rich text translations
+- **Type Safe**: Full TypeScript support
+- **Dynamic Language Switching**: Change languages at runtime
+- **Simple API**: Clean and intuitive translation hook
 
 ## Installation
 
 ```bash
-npm install beluga-i18n
+npm install @beluga-labs/i18n
 # or
-yarn add beluga-i18n
+pnpm add @beluga-labs/i18n
 # or
-pnpm add beluga-i18n
+yarn add @beluga-labs/i18n
 ```
 
-## Quick Start
+## What is this package?
 
-### 1. Setup the TranslationsProvider
+When building React applications, you often need to support multiple languages. This package provides a simple and flexible way to manage translations with support for:
 
-First, wrap your application with the `TranslationsProvider`:
+- Nested translation keys
+- Variable interpolation
+- HTML parsing
+- Dynamic language switching
+- TypeScript support
+
+## Usage
+
+### Basic Setup
+
+Wrap your application with the `TranslationProvider`:
 
 ```tsx
-import { TranslationsProvider } from 'beluga-i18n';
+import { TranslationProvider, useTranslation } from '@beluga-labs/i18n';
 
 const translations = {
-    en: {
-        welcome: 'Welcome to our app!',
-        greeting: 'Hello, {name}!',
-        description: 'This is a <strong>great</strong> app.',
-        nested: {
-            key: 'This is a nested translation'
-        }
-    },
-    de: {
-        welcome: 'Willkommen in unserer App!',
-        greeting: 'Hallo, {name}!',
-        description: 'Das ist eine <strong>tolle</strong> App.',
-        nested: {
-            key: 'Das ist eine verschachtelte Übersetzung'
-        }
+  en: {
+    welcome: 'Welcome to our app!',
+    greeting: 'Hello, {name}!',
+    description: 'This is a <strong>great</strong> app.',
+    nested: {
+      key: 'This is a nested translation'
     }
+  },
+  de: {
+    welcome: 'Willkommen in unserer App!',
+    greeting: 'Hallo, {name}!',
+    description: 'Das ist eine <strong>tolle</strong> App.',
+    nested: {
+      key: 'Das ist eine verschachtelte Übersetzung'
+    }
+  }
 };
 
 function App() {
-    return (
-        <TranslationsProvider
-            translations={translations}
-            locale="en">
-            <YourApp />
-        </TranslationsProvider>
-    );
+  return (
+    <TranslationProvider
+      translations={translations}
+      locale="en">
+      <YourApp />
+    </TranslationProvider>
+  );
 }
 ```
 
-### 2. Use the useTranslation Hook
+### Using Translations
 
-Now you can use the `useTranslation` hook in any component within the provider:
+Use the `useTranslation` hook in any component:
 
 ```tsx
-import { useTranslation } from 'beluga-i18n';
+import { useTranslation } from '@beluga-labs/i18n';
 
 function WelcomeComponent() {
-    const { t, changeLanguage } = useTranslation();
+  const { t, changeLanguage } = useTranslation();
 
-    return (
-        <div>
-            <h1>{t('welcome')}</h1>
-            <p>{t('greeting', { name: 'John' })}</p>
-            <div>{t('description')}</div>
-            <p>{t('nested.key')}</p>
+  return (
+    <div>
+      <h1>{t('welcome')}</h1>
+      <p>{t('greeting', { name: 'John' })}</p>
+      <div>{t('description')}</div>
+      <p>{t('nested.key')}</p>
 
-            <button onClick={() => changeLanguage('de')}>
-                Switch to German
-            </button>
-        </div>
-    );
+      <button onClick={() => changeLanguage('de')}>Switch to German</button>
+    </div>
+  );
 }
 ```
 
 ## API Reference
 
-### TranslationsProvider
+### TranslationProvider
 
 The main provider component that wraps your application and provides translation context.
 
@@ -103,13 +111,13 @@ The main provider component that wraps your application and provides translation
 #### Example
 
 ```tsx
-<TranslationsProvider
-    translations={translations}
-    locale="en"
-    reloadKey={reloadKey} // Optional
+<TranslationProvider
+  translations={translations}
+  locale="en"
+  reloadKey={reloadKey} // Optional
 >
-    {children}
-</TranslationsProvider>
+  {children}
+</TranslationProvider>
 ```
 
 ### useTranslation Hook
@@ -139,19 +147,19 @@ You can organize your translations in nested objects and access them using dot n
 
 ```tsx
 const translations = {
-    en: {
-        common: {
-            buttons: {
-                save: 'Save',
-                cancel: 'Cancel',
-                delete: 'Delete'
-            },
-            messages: {
-                success: 'Operation completed successfully',
-                error: 'An error occurred'
-            }
-        }
+  en: {
+    common: {
+      buttons: {
+        save: 'Save',
+        cancel: 'Cancel',
+        delete: 'Delete'
+      },
+      messages: {
+        success: 'Operation completed successfully',
+        error: 'An error occurred'
+      }
     }
+  }
 };
 
 // Usage
@@ -166,11 +174,11 @@ You can include variables in your translations using curly braces:
 
 ```tsx
 const translations = {
-    en: {
-        greeting: 'Hello, {name}!',
-        items: 'You have {count} items in your cart',
-        welcome: 'Welcome back, {firstName} {lastName}!'
-    }
+  en: {
+    greeting: 'Hello, {name}!',
+    items: 'You have {count} items in your cart',
+    welcome: 'Welcome back, {firstName} {lastName}!'
+  }
 };
 
 // Usage
@@ -186,11 +194,10 @@ By default, HTML in translations is automatically parsed. You can disable this b
 
 ```tsx
 const translations = {
-    en: {
-        description:
-            'This is a <strong>bold</strong> text with <em>emphasis</em>.',
-        link: 'Click <a href="/help">here</a> for help.'
-    }
+  en: {
+    description: 'This is a <strong>bold</strong> text with <em>emphasis</em>.',
+    link: 'Click <a href="/help">here</a> for help.'
+  }
 };
 
 // Usage
@@ -205,15 +212,15 @@ You can change the language at runtime:
 
 ```tsx
 function LanguageSwitcher() {
-    const { changeLanguage } = useTranslation();
+  const { changeLanguage } = useTranslation();
 
-    return (
-        <div>
-            <button onClick={() => changeLanguage('en')}>English</button>
-            <button onClick={() => changeLanguage('de')}>Deutsch</button>
-            <button onClick={() => changeLanguage('fr')}>Français</button>
-        </div>
-    );
+  return (
+    <div>
+      <button onClick={() => changeLanguage('en')}>English</button>
+      <button onClick={() => changeLanguage('de')}>Deutsch</button>
+      <button onClick={() => changeLanguage('fr')}>Français</button>
+    </div>
+  );
 }
 ```
 
@@ -223,112 +230,190 @@ Use the `reloadKey` prop to force a reload of translations:
 
 ```tsx
 function App() {
-    const [reloadKey, setReloadKey] = useState(0);
+  const [reloadKey, setReloadKey] = useState(0);
 
-    const handleReloadTranslations = () => {
-        setReloadKey((prev) => prev + 1);
-    };
+  const handleReloadTranslations = () => {
+    setReloadKey((prev) => prev + 1);
+  };
 
-    return (
-        <TranslationsProvider
-            translations={translations}
-            locale="en"
-            reloadKey={reloadKey}>
-            <YourApp />
-            <button onClick={handleReloadTranslations}>
-                Reload Translations
-            </button>
-        </TranslationsProvider>
-    );
+  return (
+    <TranslationProvider
+      translations={translations}
+      locale="en"
+      reloadKey={reloadKey}>
+      <YourApp />
+      <button onClick={handleReloadTranslations}>Reload Translations</button>
+    </TranslationProvider>
+  );
 }
 ```
 
-## NextJS Integration
+## Framework Integration
 
-### App Router (App Directory)
+This package works with any React framework. Here are examples for popular frameworks:
 
-For NextJS 13+ with the app directory:
+### Next.js
+
+#### App Router (Next.js 13+)
+
+For Next.js 13+ with the app directory:
 
 ```tsx
 // app/layout.tsx
-import { TranslationsProvider } from 'beluga-i18n';
+'use client';
+
+import { TranslationProvider } from '@beluga-labs/i18n';
 
 export default function RootLayout({
-    children
+  children
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    return (
-        <html lang="en">
-            <body>
-                <TranslationsProvider
-                    translations={translations}
-                    locale="en">
-                    {children}
-                </TranslationsProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body>
+        <TranslationProvider
+          translations={translations}
+          locale="en">
+          {children}
+        </TranslationProvider>
+      </body>
+    </html>
+  );
 }
 ```
 
-### Pages Router
+#### Pages Router
 
-For traditional NextJS pages:
+For traditional Next.js pages:
 
 ```tsx
 // pages/_app.tsx
-import { TranslationsProvider } from 'beluga-i18n';
+import { TranslationProvider } from '@beluga-labs/i18n';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
-    return (
-        <TranslationsProvider
-            translations={translations}
-            locale="en">
-            <Component {...pageProps} />
-        </TranslationsProvider>
-    );
+  return (
+    <TranslationProvider
+      translations={translations}
+      locale="en">
+      <Component {...pageProps} />
+    </TranslationProvider>
+  );
+}
+```
+
+### Remix
+
+```tsx
+// app/root.tsx
+import { TranslationProvider } from '@beluga-labs/i18n';
+
+export default function App() {
+  return (
+    <html>
+      <body>
+        <TranslationProvider
+          translations={translations}
+          locale="en">
+          <Outlet />
+        </TranslationProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+### Vite / Create React App
+
+```tsx
+// src/main.tsx or src/index.tsx
+import { TranslationProvider } from '@beluga-labs/i18n';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <TranslationProvider
+      translations={translations}
+      locale="en">
+      <App />
+    </TranslationProvider>
+  </React.StrictMode>
+);
+```
+
+### Gatsby
+
+```tsx
+// gatsby-browser.js or gatsby-ssr.js
+import { TranslationProvider } from '@beluga-labs/i18n';
+import React from 'react';
+
+export const wrapRootElement = ({ element }) => (
+  <TranslationProvider
+    translations={translations}
+    locale="en">
+    {element}
+  </TranslationProvider>
+);
+```
+
+### Any React Application
+
+Since this package is framework-agnostic, you can use it anywhere React components are used:
+
+```tsx
+import { TranslationProvider } from '@beluga-labs/i18n';
+
+function App() {
+  return (
+    <TranslationProvider
+      translations={translations}
+      locale="en">
+      <YourApp />
+    </TranslationProvider>
+  );
 }
 ```
 
 ## TypeScript Support
 
-The package includes full TypeScript support. You can type your translations for better development experience:
+Full TypeScript support is included. You can type your translations for better development experience:
 
 ```tsx
 interface Translations {
-    en: {
-        welcome: string;
-        greeting: string;
-        nested: {
-            key: string;
-        };
+  en: {
+    welcome: string;
+    greeting: string;
+    nested: {
+      key: string;
     };
-    de: {
-        welcome: string;
-        greeting: string;
-        nested: {
-            key: string;
-        };
+  };
+  de: {
+    welcome: string;
+    greeting: string;
+    nested: {
+      key: string;
     };
+  };
 }
 
 const translations: Translations = {
-    en: {
-        welcome: 'Welcome!',
-        greeting: 'Hello, {name}!',
-        nested: {
-            key: 'Nested translation'
-        }
-    },
-    de: {
-        welcome: 'Willkommen!',
-        greeting: 'Hallo, {name}!',
-        nested: {
-            key: 'Verschachtelte Übersetzung'
-        }
+  en: {
+    welcome: 'Welcome!',
+    greeting: 'Hello, {name}!',
+    nested: {
+      key: 'Nested translation'
     }
+  },
+  de: {
+    welcome: 'Willkommen!',
+    greeting: 'Hallo, {name}!',
+    nested: {
+      key: 'Verschachtelte Übersetzung'
+    }
+  }
 };
 ```
 
@@ -340,27 +425,27 @@ Keep your translations well-organized and use consistent naming conventions:
 
 ```tsx
 const translations = {
-    en: {
-        common: {
-            buttons: {
-                /* button texts */
-            },
-            messages: {
-                /* status messages */
-            },
-            errors: {
-                /* error messages */
-            }
-        },
-        pages: {
-            home: {
-                /* home page texts */
-            },
-            about: {
-                /* about page texts */
-            }
-        }
+  en: {
+    common: {
+      buttons: {
+        /* button texts */
+      },
+      messages: {
+        /* status messages */
+      },
+      errors: {
+        /* error messages */
+      }
+    },
+    pages: {
+      home: {
+        /* home page texts */
+      },
+      about: {
+        /* about page texts */
+      }
     }
+  }
 };
 ```
 
@@ -400,6 +485,104 @@ t('welcome.message'); // Returns '[welcome.message]' if missing
 - Consider code-splitting translations by route or feature
 - Use the `reloadKey` prop sparingly
 
+## Migration Guide
+
+### Migrating from 1.0.1 to 2.0.0
+
+Version 2.0.0 introduces several breaking changes. Follow this guide to update your code:
+
+#### 1. Package Name Change
+
+The package has been renamed from `beluga-i18n` to `@beluga-labs/i18n`.
+
+**Before:**
+
+```bash
+npm install beluga-i18n
+```
+
+**After:**
+
+```bash
+npm install @beluga-labs/i18n
+```
+
+**Update imports:**
+
+```tsx
+// Before
+import { TranslationsProvider, useTranslation } from 'beluga-i18n';
+
+// After
+import { TranslationProvider, useTranslation } from '@beluga-labs/i18n';
+```
+
+#### 2. Component Rename
+
+The main provider component has been renamed from `TranslationsProvider` (plural) to `TranslationProvider` (singular).
+
+**Before:**
+
+```tsx
+import { TranslationsProvider } from 'beluga-i18n';
+
+<TranslationsProvider
+  translations={translations}
+  locale="en">
+  {children}
+</TranslationsProvider>;
+```
+
+**After:**
+
+```tsx
+import { TranslationProvider } from '@beluga-labs/i18n';
+
+<TranslationProvider
+  translations={translations}
+  locale="en">
+  {children}
+</TranslationProvider>;
+```
+
+#### 3. Context and Type Names
+
+All related types and context names have been updated to use singular form:
+
+- `TranslationsContext` → `TranslationContext`
+- `TranslationsContextProps` → `TranslationContextProps`
+- `TranslationsProviderProps` → `TranslationProviderProps`
+
+If you were using these types directly, update your imports:
+
+```tsx
+// Before
+import { TranslationsContext, TranslationsProviderProps } from 'beluga-i18n';
+
+// After
+import {
+  TranslationContext,
+  TranslationProviderProps
+} from '@beluga-labs/i18n';
+```
+
+#### Summary of Changes
+
+| Item               | Before (1.0.1)         | After (2.0.0)         |
+| ------------------ | ---------------------- | --------------------- |
+| Package name       | `beluga-i18n`          | `@beluga-labs/i18n`   |
+| Provider component | `TranslationsProvider` | `TranslationProvider` |
+| Context            | `TranslationsContext`  | `TranslationContext`  |
+| Build system       | `tsup`                 | `rollup`              |
+
+#### Migration Checklist
+
+- [ ] Update package name in `package.json`
+- [ ] Update all imports from `beluga-i18n` to `@beluga-labs/i18n`
+- [ ] Rename `TranslationsProvider` to `TranslationProvider` in all files
+- [ ] Update any direct usage of context or types
+- [ ] Test your application thoroughly
+
 ## Contributing
 
 We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.md) for more details.
@@ -407,7 +590,3 @@ We welcome contributions! Please see our [contributing guidelines](CONTRIBUTING.
 ## License
 
 MIT License - see [LICENSE](LICENSE) file for details.
-
-## Support
-
-If you encounter any issues or have questions, please [open an issue](https://github.com/beluga-labs/beluga-i18n/issues) on GitHub.

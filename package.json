@@ -1,55 +1,74 @@
 {
-	"name": "beluga-i18n",
-	"description": "A package for internationalization support in NextJS apps and beluga stack.",
-	"version": "1.0.1",
-	"changelog": {
-		"1.0.1": [
-			"Added missing files like license and contributing"
-		],
-		"1.0.0": [
-			"Added html parsing option to useTranslation hook",
-			"Improved missing translation key handling with automatic fallback",
-			"Added comprehensive README documentation"
-		],
-		"0.2.1": [
-			"Added reloadKey prop to TranslationsProvider for controlled reloading"
-		]
-	},
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"scripts": {
-		"build": "tsup",
-		"test": "cd test && pnpm test",
-		"format": "prettier --write \"**/*.{ts,tsx,md}\"",
-		"format-watch": "onchange \"**/*.{ts,tsx,md}\" -- prettier --write --ignore-unknown {{changed}}"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/beluga-labs/beluga-i18n"
-	},
-	"keywords": [
-		"i18n",
-		"internationalization",
-		"translations",
-		"nextjs",
-		"beluga"
-	],
-	"bugs": {
-		"url": "https://github.com/beluga-labs/beluga-i18n/issues"
-	},
-	"homepage": "https://github.com/beluga-labs/beluga-i18n#readme",
-	"author": "beluga – Daniel Baumert",
-	"license": "MIT",
-	"files": [
-		"dist"
-	],
-	"devDependencies": {
-		"prettier": "^3.6.2",
-		"tsup": "^8.5.0",
-		"typescript": "^5.8.3"
-	},
-	"dependencies": {
-		"html-react-parser": "^5.2.5",
-		"react": "^19.1.0"
-	}
+  "name": "@beluga-labs/i18n",
+  "description": "Internationalization support for React applications with translation management",
+  "version": "2.0.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "rm -rf dist && rollup -c",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format-watch": "onchange \"**/*.{ts,tsx,md}\" -- prettier --write --ignore-unknown {{changed}}",
+    "example": "cd example && vite"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/beluga-labs/i18n"
+  },
+  "keywords": [
+    "i18n",
+    "internationalization",
+    "translations",
+    "react",
+    "react-hooks",
+    "nextjs",
+    "remix",
+    "gatsby",
+    "vite",
+    "create-react-app",
+    "react-framework"
+  ],
+  "bugs": {
+    "url": "https://github.com/beluga-labs/i18n/issues"
+  },
+  "homepage": "https://github.com/beluga-labs/i18n#readme",
+  "author": "beluga labs",
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-typescript": "^12.3.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "jsdom": "^27.3.0",
+    "prettier": "^3.7.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "rollup": "^4.53.5",
+    "rollup-plugin-dts": "^6.3.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16"
+  },
+  "dependencies": {
+    "html-react-parser": "^5.2.11",
+    "react": "^19.2.3"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  }
 }
