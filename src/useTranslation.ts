@@ -53,7 +53,7 @@ export const useTranslation = () => {
       if (!translation) {
         // Log warning in development
         if (typeof window !== 'undefined' && window.location.hostname === 'localhost') {
-          console.warn(`[@beluga-labs/i18n] Missing translation for key: "${key}" in language: "${language}"`);
+          console.warn(`[@mantaray0/i18n] Missing translation for key: "${key}" in language: "${language}"`);
         }
         return `[${key}]`;
       }

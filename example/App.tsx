@@ -6,7 +6,7 @@ const translations = {
   en: {
     welcome: 'Welcome {name}!',
     greeting: 'Hello {firstName} {lastName}',
-    description: 'This is a demo of the @beluga-labs/i18n translation system.',
+    description: 'This is a demo of the @mantaray0/i18n translation system.',
     features: {
       title: 'Features',
       variable: 'Variable interpolation: {count} items',
@@ -23,7 +23,7 @@ const translations = {
     welcome: 'Willkommen {name}!',
     greeting: 'Hallo {firstName} {lastName}',
     description:
-      'Dies ist eine Demo des @beluga-labs/i18n Übersetzungssystems.',
+      'Dies ist eine Demo des @mantaray0/i18n Übersetzungssystems.',
     features: {
       title: 'Funktionen',
       variable: 'Variablen-Interpolation: {count} Artikel',
@@ -52,8 +52,8 @@ const DemoContent = () => {
   return (
     <div className="container">
       <header className="header">
-        <h1 className="header__title">@beluga-labs/i18n Example</h1>
-        <span className="header__package">@beluga-labs/i18n</span>
+        <h1 className="header__title">@mantaray0/i18n Example</h1>
+        <span className="header__package">@mantaray0/i18n</span>
       </header>
 
       <section className="section">

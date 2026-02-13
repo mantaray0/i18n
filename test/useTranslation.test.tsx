@@ -251,7 +251,7 @@ describe('useTranslation', () => {
     result.current.t('missing.key');
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      '[@beluga-labs/i18n] Missing translation for key: "missing.key" in language: "en"'
+      '[@mantaray0/i18n] Missing translation for key: "missing.key" in language: "en"'
     );
   });
 
@@ -265,7 +265,7 @@ describe('useTranslation', () => {
     result.current.t('missing.key');
 
     expect(consoleSpy).toHaveBeenCalledWith(
-      '[@beluga-labs/i18n] Missing translation for key: "missing.key" in language: "de"'
+      '[@mantaray0/i18n] Missing translation for key: "missing.key" in language: "de"'
     );
   });
 

@@ -1,6 +1,6 @@
-# Contributing to Beluga i18n
+# Contributing to @mantaray0/i18n
 
-Thank you for your interest in contributing to Beluga i18n! We welcome all contributions that help improve the project.
+Thank you for your interest in contributing to @mantaray0/i18n! We welcome all contributions that help improve the project.
 
 ## Code of Conduct
 
@@ -44,8 +44,8 @@ We are committed to providing an open and welcoming environment for everyone. Pl
 
 ```bash
 # Clone the repository
-git clone https://github.com/beluga-labs/beluga-i18n.git
-cd beluga-i18n
+git clone https://github.com/mantaray0/i18n.git
+cd i18n
 
 # Install dependencies
 npm install
@@ -124,4 +124,4 @@ If you have questions or need help:
 
 ## Acknowledgments
 
-Thank you to everyone who contributes to this project! Every contribution, no matter how small, is valuable and helps make Beluga i18n a better tool.
+Thank you to everyone who contributes to this project! Every contribution, no matter how small, is valuable and helps make @mantaray0/i18n a better tool.
