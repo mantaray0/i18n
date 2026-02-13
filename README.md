@@ -1,4 +1,4 @@
-# @beluga-labs/i18n
+# @mantaray0/i18n
 
 Internationalization support for React applications with translation management. Works with any React framework including Next.js, Remix, Gatsby, Vite, Create React App, and any other React-based application.
 
@@ -14,11 +14,11 @@ Internationalization support for React applications with translation management.
 ## Installation
 
 ```bash
-npm install @beluga-labs/i18n
+npm install @mantaray0/i18n
 # or
-pnpm add @beluga-labs/i18n
+pnpm add @mantaray0/i18n
 # or
-yarn add @beluga-labs/i18n
+yarn add @mantaray0/i18n
 ```
 
 ## What is this package?
@@ -38,7 +38,7 @@ When building React applications, you often need to support multiple languages. 
 Wrap your application with the `TranslationProvider`:
 
 ```tsx
-import { TranslationProvider, useTranslation } from '@beluga-labs/i18n';
+import { TranslationProvider, useTranslation } from '@mantaray0/i18n';
 
 const translations = {
   en: {
@@ -75,7 +75,7 @@ function App() {
 Use the `useTranslation` hook in any component:
 
 ```tsx
-import { useTranslation } from '@beluga-labs/i18n';
+import { useTranslation } from '@mantaray0/i18n';
 
 function WelcomeComponent() {
   const { t, changeLanguage } = useTranslation();
@@ -262,7 +262,7 @@ For Next.js 13+ with the app directory:
 // app/layout.tsx
 'use client';
 
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 
 export default function RootLayout({
   children
@@ -289,7 +289,7 @@ For traditional Next.js pages:
 
 ```tsx
 // pages/_app.tsx
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 import type { AppProps } from 'next/app';
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -307,7 +307,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
 ```tsx
 // app/root.tsx
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 
 export default function App() {
   return (
@@ -328,7 +328,7 @@ export default function App() {
 
 ```tsx
 // src/main.tsx or src/index.tsx
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 
@@ -347,7 +347,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 
 ```tsx
 // gatsby-browser.js or gatsby-ssr.js
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 import React from 'react';
 
 export const wrapRootElement = ({ element }) => (
@@ -364,7 +364,7 @@ export const wrapRootElement = ({ element }) => (
 Since this package is framework-agnostic, you can use it anywhere React components are used:
 
 ```tsx
-import { TranslationProvider } from '@beluga-labs/i18n';
+import { TranslationProvider } from '@mantaray0/i18n';
 
 function App() {
   return (
@@ -487,98 +487,65 @@ t('welcome.message'); // Returns '[welcome.message]' if missing
 
 ## Migration Guide
 
-### Migrating from 1.0.1 to 2.0.0
+### Migrating from `@beluga-labs/i18n` or `beluga-i18n`
 
-Version 2.0.0 introduces several breaking changes. Follow this guide to update your code:
-
-#### 1. Package Name Change
-
-The package has been renamed from `beluga-i18n` to `@beluga-labs/i18n`.
-
-**Before:**
+This package was previously published as `beluga-i18n` (v1.x) and `@beluga-labs/i18n` (v2.x). It is now available as `@mantaray0/i18n`.
 
 ```bash
-npm install beluga-i18n
+# Remove old package
+npm uninstall @beluga-labs/i18n  # or beluga-i18n
+
+# Install new package
+npm install @mantaray0/i18n
 ```
 
-**After:**
-
-```bash
-npm install @beluga-labs/i18n
-```
-
-**Update imports:**
+Update all imports:
 
 ```tsx
 // Before
-import { TranslationsProvider, useTranslation } from 'beluga-i18n';
+import { TranslationProvider, useTranslation } from '@beluga-labs/i18n'; // or 'beluga-i18n'
 
 // After
-import { TranslationProvider, useTranslation } from '@beluga-labs/i18n';
+import { TranslationProvider, useTranslation } from '@mantaray0/i18n';
 ```
 
-#### 2. Component Rename
+### Migrating from v1.x to v2.x
 
-The main provider component has been renamed from `TranslationsProvider` (plural) to `TranslationProvider` (singular).
+Version 2.0.0 introduced several breaking changes:
 
-**Before:**
+#### Component Rename
+
+The main provider component was renamed from `TranslationsProvider` (plural) to `TranslationProvider` (singular).
 
 ```tsx
-import { TranslationsProvider } from 'beluga-i18n';
+// Before
+<TranslationsProvider translations={translations} locale="en">
 
-<TranslationsProvider
-  translations={translations}
-  locale="en">
-  {children}
-</TranslationsProvider>;
+// After
+<TranslationProvider translations={translations} locale="en">
 ```
 
-**After:**
+#### Context and Type Names
 
-```tsx
-import { TranslationProvider } from '@beluga-labs/i18n';
-
-<TranslationProvider
-  translations={translations}
-  locale="en">
-  {children}
-</TranslationProvider>;
-```
-
-#### 3. Context and Type Names
-
-All related types and context names have been updated to use singular form:
+All related types and context names were updated to use singular form:
 
 - `TranslationsContext` → `TranslationContext`
 - `TranslationsContextProps` → `TranslationContextProps`
 - `TranslationsProviderProps` → `TranslationProviderProps`
 
-If you were using these types directly, update your imports:
-
-```tsx
-// Before
-import { TranslationsContext, TranslationsProviderProps } from 'beluga-i18n';
-
-// After
-import {
-  TranslationContext,
-  TranslationProviderProps
-} from '@beluga-labs/i18n';
-```
-
 #### Summary of Changes
 
-| Item               | Before (1.0.1)         | After (2.0.0)         |
+| Item               | v1.x                   | v2.x                  |
 | ------------------ | ---------------------- | --------------------- |
-| Package name       | `beluga-i18n`          | `@beluga-labs/i18n`   |
+| Package name       | `beluga-i18n`          | `@mantaray0/i18n`     |
 | Provider component | `TranslationsProvider` | `TranslationProvider` |
 | Context            | `TranslationsContext`  | `TranslationContext`  |
 | Build system       | `tsup`                 | `rollup`              |
 
 #### Migration Checklist
 
-- [ ] Update package name in `package.json`
-- [ ] Update all imports from `beluga-i18n` to `@beluga-labs/i18n`
+- [ ] Update package name in `package.json` to `@mantaray0/i18n`
+- [ ] Update all imports to `@mantaray0/i18n`
 - [ ] Rename `TranslationsProvider` to `TranslationProvider` in all files
 - [ ] Update any direct usage of context or types
 - [ ] Test your application thoroughly
